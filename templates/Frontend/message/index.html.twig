@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les messages | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <section class="container mt-4">
+        <h1 class="text-center">Poster un message</h1>
+        {%  include 'Frontend/message/_form.html.twig' with{button_label: 'Créer'}%}
+    </section>
+    <section class="container mt-4">
+        <h1 class="text-center">Tout les messages</h1>
+        <div class="message-list mt-4">
+            {% for message in messages %}
+                {% include 'Components/_cardMessage.html.twig' %}
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

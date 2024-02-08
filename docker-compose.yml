@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  tp-db:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=somerootpass
+      - MYSQL_PASSWORD=somepass
+      - MYSQL_DATABASE=tpFinalSymfony
+      - MYSQL_USER=someuser
+    networks:
+      - web
+  tp-symfony:
+    build: .
+    restart: on-failure
+    depends_on:
+      - tp-db
+    environment:
+        - DATABASE_URL=mysql://someuser:somepass@tp-db:3306/tpFinalSymfony
+        - APP_ENV=dev
+    ports:
+      - 8080:80
+    networks:
+      - web
+
+networks:
+    web:
+        driver: bridge
