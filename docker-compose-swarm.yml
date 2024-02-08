@@ -14,6 +14,7 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
+
   tp-symfony:
     image: swarmweb
     restart: on-failure
@@ -28,6 +29,9 @@ services:
       - web
     deploy:
       replicas: 1
+      placement:
+        constraints:
+          - node.role == worker  # Deploy on worker nodes
       restart_policy:
         condition: on-failure
 

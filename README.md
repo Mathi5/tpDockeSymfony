@@ -36,3 +36,37 @@ Avant de démarrer, assurez-vous d'avoir Docker et Docker Compose installés sur
     - Les détails de la base de données MySQL sont définis dans le service tp-db du fichier docker-compose.yml. 
    
     - L'application Symfony est configurée pour se connecter à cette base de données via la variable d'environnement DATABASE_URL définie dans le service tp-symfony.
+
+    
+## Déploiement avec Docker Swarm
+
+1. Cree un image pour docker swarm :
+
+    ```bash
+    docker build -t swarmweb .  
+   ```
+
+2. **Initialisez Docker Swarm** : Vous devez initialiser Docker Swarm sur la machine qui agira en tant que nœud de gestion. Vous pouvez le faire en utilisant la commande suivante :
+
+    ```bash
+    docker swarm init
+    ```
+
+3. **Déployez la pile** : Après avoir initialisé Docker Swarm, vous pouvez déployer votre application en utilisant la commande suivante :
+
+    ```bash
+    docker stack deploy --compose-file docker-compose-swarm.yml TpFinalDocker
+    ```
+
+   `TpFinalDocker` est le nom de la pile. Vous pouvez le remplacer par n'importe quel nom que vous préférez.
+
+4. **Vérifiez le déploiement** : Vous pouvez vérifier l'état de votre déploiement en utilisant la commande suivante :
+
+    ```bash
+    docker stack services TpFinalDocker
+    ```
+
+   Cette commande affiche une liste de tous les services dans votre pile avec leur état actuel.
+
+5. **Accédez à votre application** : Une fois que tous les services sont en état de marche, vous pouvez accéder à votre application en utilisant l'adresse IP de votre nœud de gestion Docker Swarm et le port que vous avez spécifié dans votre fichier Docker Compose. Par exemple, si vous avez spécifié le port 8080 pour le service de votre application web, vous pouvez accéder à votre application en naviguant vers `http://<ip-du-noeud-de-gestion>:8080` dans votre navigateur web.
+
